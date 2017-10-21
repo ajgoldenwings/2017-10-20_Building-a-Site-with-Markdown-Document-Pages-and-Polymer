@@ -1,0 +1,80 @@
+<link rel="import" href="../../bower_components/polymer/polymer-element.html">
+<link rel="import" href="../../bower_components/iron-pages/iron-pages.html">
+<link rel="import" href="../../bower_components/marked-element/marked-element.html">
+
+<link rel="lazy-import" href="home.md">
+<link rel="lazy-import" href="about.md">
+<link rel="lazy-import" href="contact.md">
+
+<dom-module id="building-a-site-with-markdown-document-pages-app">
+  <template>
+    <style>
+      :host {
+        display: block;
+      }
+    </style>
+		<h2>Hello [[prop1]]!</h2>
+
+		Current filepath: [[currentDocumentFilepath]]
+
+		<iron-pages selected="[[currentDocument]]"
+			attr-for-selected="name"
+			fallback-selection="home">
+			<div name="home">
+				<marked-element>
+					<div slot="markdown-html"></div>
+					<script type="text/markdown" src="src/Building-a-Site-with-Markdown-Document-Pages-app/home.md"></script>
+				</marked-element>
+			</div>
+			<div name="about">
+				<marked-element>
+					<div slot="markdown-html"></div>
+					<script type="text/markdown" src="src/Building-a-Site-with-Markdown-Document-Pages-app/about.md"></script>
+				</marked-element>
+			</div>
+			<div name="contact">
+				<marked-element>
+					<div slot="markdown-html"></div>
+					<script type="text/markdown" src="src/Building-a-Site-with-Markdown-Document-Pages-app/contact.md"></script>
+				</marked-element>
+			</div>
+		</iron-pages>
+  </template>
+
+  <script>
+    /**
+     * @customElement
+     * @polymer
+     */
+    class BuildingASiteWithMarkdownDocumentPagesApp extends Polymer.Element {
+      static get is() { return 'building-a-site-with-markdown-document-pages-app'; }
+      static get properties() {
+        return {
+					currentDocument: {
+						type: String,
+						reflectToAttribute: true,
+						value: "home"
+					},
+
+					currentDocumentFilepath: {
+						type: String,
+						reflectToAttribute: true,
+						computed: '_currentDocumentFilepath(currentDocument)'
+					},
+
+          prop1: {
+            type: String,
+            value: 'building-a-site-with-markdown-document-pages-app'
+          }
+        };
+      }
+
+			_currentDocumentFilepath(currentDocument) {
+				var currentDocument = currentDocument || 'home';
+				return currentDocument + '.md';
+			}
+    }
+
+    window.customElements.define(BuildingASiteWithMarkdownDocumentPagesApp.is, BuildingASiteWithMarkdownDocumentPagesApp);
+  </script>
+</dom-module>
